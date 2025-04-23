@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Birthday Bunda</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body class="bg-[#075E54] text-white flex flex-col min-h-screen">
+    <!-- Tampilan Sebelum Mengangkat Telepon -->
+    <div id="pickup-screen" class="flex flex-col flex-grow min-h-screen">
+      <!-- Bagian Atas -->
+      <div class="flex justify-center items-center px-4 py-3">
+        <div class="text-sm">End-to-end Encrypted</div>
+      </div>
+      <div
+        class="flex flex-col items-center justify-center flex-[3] bg-[#0A786D]"
+      >
+        <img
+          src="profile.png"
+          alt="Profile"
+          class="rounded-full w-40 h-40 object-cover border-4 border-white"
+        />
+        <h1 class="text-2xl font-semibold mt-3">Soulmate <span class="text-red-500"><i class="fa-solid fa-heart"></i></span></h1>
+        <p class="text-base mt-1">WhatsApp voice call</p>
+      </div>
+
+      <!-- Bagian Bawah -->
+      <div
+        class="flex flex-col justify-center items-center flex-[7] bg-[#075E54]"
+      >
+        <button
+          id="pickup-btn"
+          class="animate-shake-loop bg-green-600 hover:bg-green-700 text-white text-3xl w-20 h-20 flex items-center justify-center rounded-full shadow-lg mb-4"
+        >
+          <i class="fa-solid fa-phone"></i>
+        </button>
+
+        <p class="text-white text-sm">Tap to accept</p>
+      </div>
+    </div>
+
+    <!-- Tampilan Setelah Telepon Diangkat -->
+    <div id="call-screen" class="hidden flex flex-col min-h-screen">
+      <!-- Header -->
+      <div class="flex justify-between items-center px-4 py-3">
+        <a href="#" class="text-white text-lg"
+          ><i class="fa-solid fa-arrow-left"></i
+        ></a>
+        <div class="text-sm">End to End Encrypted</div>
+        <a href="#"><i class="fa-solid fa-user"></i></a>
+      </div>
+
+      <!-- Call Title and Timer -->
+      <div class="text-center mt-2">
+        <h1 class="text-2xl font-semibold">
+          Soulmate <span class="text-red-500"><i class="fa-solid fa-heart"></i></span>
+        </h1>
+        <p class="text-sm mt-1" id="timer">00:00</p>
+      </div>
+
+      <!-- Profile Picture -->
+      <div class="flex-grow flex justify-center items-center">
+        <img
+          src="profile.png"
+          alt="Profile"
+          class="rounded-full w-60 h-60 object-cover border-4 border-white"
+        />
+      </div>
+
+      <!-- Footer -->
+      <div class="flex justify-between items-center px-8 py-4 bg-[#064C45]">
+        <a href="#" class="text-white text-xl"
+          ><i class="fa-solid fa-camera"></i
+        ></a>
+        <a href="#" class="text-white text-xl"
+          ><i class="fa-solid fa-microphone"></i
+        ></a>
+        <button class="bg-red-600 p-3 rounded-full">
+          <i class="fa-solid fa-phone-slash"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Audio Element -->
+    <audio id="call-audio" src="call.m4a"></audio>
+
+    <!-- Script -->
+    <script>
+      const pickupBtn = document.getElementById("pickup-btn");
+      const pickupScreen = document.getElementById("pickup-screen");
+      const callScreen = document.getElementById("call-screen");
+      const audio = document.getElementById("call-audio");
+
+      pickupBtn.addEventListener("click", () => {
+        // Tampilkan layar call, sembunyikan layar pickup
+        pickupScreen.classList.add("hidden");
+        callScreen.classList.remove("hidden");
+
+        // Mainkan audio
+        audio.play().catch((e) => {
+          console.log("Audio gagal diputar:", e);
+        });
+
+        // Mulai timer
+        const timerDisplay = document.getElementById("timer");
+        let seconds = 0;
+
+        const interval = setInterval(() => {
+          seconds++;
+          const min = String(Math.floor(seconds / 60)).padStart(2, "0");
+          const sec = String(seconds % 60).padStart(2, "0");
+          timerDisplay.textContent = `${min}:${sec}`;
+          if (seconds >= 30) clearInterval(interval);
+        }, 1000);
+      });
+    </script>
+  </body>
+</html>
