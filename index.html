@@ -13,8 +13,6 @@
       referrerpolicy="no-referrer"
     />
     <link rel="stylesheet" href="css/style.css" />
-    <script src="https://cdn.jsdelivr.net/npm/fireworks-js@2/dist/fireworks.js"></script>
-
   </head>
   <body class="bg-[#075E54] text-white flex flex-col min-h-screen">
     <!-- Tampilan Sebelum Mengangkat Telepon -->
@@ -182,71 +180,51 @@
 
     <!-- Script -->
     <script>
-  const pickupBtn = document.getElementById("pickup-btn");
-  const pickupScreen = document.getElementById("pickup-screen");
-  const callScreen = document.getElementById("call-screen");
-  const audio = document.getElementById("call-audio");
-  const fwContainer = document.getElementById("fireworks-container");
+      const pickupBtn = document.getElementById("pickup-btn");
+      const pickupScreen = document.getElementById("pickup-screen");
+      const callScreen = document.getElementById("call-screen");
+      const audio = document.getElementById("call-audio");
 
-  pickupBtn.addEventListener("click", () => {
-    pickupScreen.classList.add("hidden");
-    callScreen.classList.remove("hidden");
+      pickupBtn.addEventListener("click", () => {
+        pickupScreen.classList.add("hidden");
+        callScreen.classList.remove("hidden");
 
-    audio.play().catch((e) => {
-      console.log("Audio gagal diputar:", e);
-    });
-
-    const timerDisplay = document.getElementById("timer");
-    let seconds = 0;
-
-    const box1 = document.querySelectorAll(".grid-cols-2 > div")[0];
-    const box2 = document.querySelectorAll(".grid-cols-2 > div")[1];
-    const box3 = document.querySelectorAll(".grid-cols-2 > div")[2];
-    const box4 = document.querySelectorAll(".grid-cols-2 > div")[3];
-
-    const interval = setInterval(() => {
-      seconds++;
-      const min = String(Math.floor(seconds / 60)).padStart(2, "0");
-      const sec = String(seconds % 60).padStart(2, "0");
-      timerDisplay.textContent = `${min}:${sec}`;
-
-      if (seconds === 1) {
-        box1.classList.add("border-4", "border-pink-400");
-      } else if (seconds === 22) {
-        box1.classList.remove("border-4", "border-pink-400");
-        box2.classList.add("border-4", "border-yellow-400");
-      } else if (seconds === 50) {
-        box2.classList.remove("border-4", "border-yellow-400");
-        box3.classList.add("border-4", "border-blue-400");
-      } else if (seconds === 143) {
-        box3.classList.remove("border-4", "border-blue-400");
-        box4.classList.add("border-4", "border-green-400");
-      } else if (seconds === 154) {
-        clearInterval(interval);
-        // Tampilkan kembang api
-        fwContainer.classList.remove("hidden");
-
-        const fireworks = new Fireworks(fwContainer, {
-          hue: { min: 0, max: 360 },
-          delay: { min: 15, max: 30 },
-          rocketsPoint: 50,
-          speed: 2,
-          acceleration: 1.05,
-          friction: 0.97,
-          gravity: 1.5,
-          particles: 100,
-          trace: 3,
-          explosion: 5,
-          autoresize: true
+        audio.play().catch((e) => {
+          console.log("Audio gagal diputar:", e);
         });
 
-        fireworks.start();
-      }
-    }, 1000);
-  });
-</script>
+        const timerDisplay = document.getElementById("timer");
+        let seconds = 0;
 
-    <div id="fireworks-container" class="fixed inset-0 z-50 pointer-events-none hidden"></div>
+        // Ambil elemen kotak pengguna
+        const box1 = document.querySelectorAll(".grid-cols-2 > div")[0]; // kiri atas
+        const box2 = document.querySelectorAll(".grid-cols-2 > div")[1]; // kanan atas
+        const box3 = document.querySelectorAll(".grid-cols-2 > div")[2]; // kiri bawah
+        const box4 = document.querySelectorAll(".grid-cols-2 > div")[3]; // kanan bawah
 
+        const interval = setInterval(() => {
+          seconds++;
+          const min = String(Math.floor(seconds / 60)).padStart(2, "0");
+          const sec = String(seconds % 60).padStart(2, "0");
+          timerDisplay.textContent = `${min}:${sec}`;
+
+          // Border logic
+          if (seconds === 1) {
+            box1.classList.add("border-4", "border-pink-400");
+          } else if (seconds === 22) {
+            box1.classList.remove("border-4", "border-pink-400");
+            box2.classList.add("border-4", "border-yellow-400");
+          } else if (seconds === 50) {
+            box2.classList.remove("border-4", "border-yellow-400");
+            box3.classList.add("border-4", "border-blue-400");
+          } else if (seconds === 143) {
+            box3.classList.remove("border-4", "border-blue-400");
+            box4.classList.add("border-4", "border-green-400");
+          }
+
+          if (seconds >= 154) clearInterval(interval); // 2 menit 33 detik
+        }, 1000);
+      });
+    </script>
   </body>
 </html>
